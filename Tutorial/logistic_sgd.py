@@ -13,7 +13,7 @@ import theano.tensor as T
 class LogisticRegression(object):
     def __init__(self, input, n_in, n_out):
         """ロジスティック回帰モデルの初期化
-        input: データ行列
+        input: データ行列（N, n_in）
         n_in : 入力の次元数
         n_out: 出力の次元数"""
         # 重み行列を初期化
@@ -26,21 +26,27 @@ class LogisticRegression(object):
                                name='b',
                                borrow=True)
 
-        # どちらもシンボル演算
+
+        # 各クラスの事後確率を計算
+        # 全データを行列化してまとめて計算している
+        # 出力は(N, n_out)の行列
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
+
+        # 事後確率が最大のクラスのインデックスを計算
+        # 出力は(N,)のベクトル
         self.y_pred = T.argmax(self.p_y_given_x, axis=1)
 
         # ロジスティック回帰モデルのパラメータ
         self.params = [self.W, self.b]
 
-    def negative_log_likelihood(self, y):
-        """誤差関数である負の対数尤度を計算
+    def negative_log_likelihood(self, y, verbose=True):
+        """誤差関数である負の対数尤度を計算するシンボルを返す
         yにはinputに対応する正解ラベルを渡す"""
         # 式通りに計算するとsumだがmeanの方がよい
         return -T.mean(T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
 
     def errors(self, y):
-        """分類の誤差率を計算
+        """分類の誤差率を計算するシンボルを返す
         yにはinputに対応する正解ラベルを渡す"""
         if y.ndim != self.y_pred.ndim:
             raise TypeError('y should have the same shape as self.y_pred',
@@ -89,9 +95,9 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
 
-    # https://groups.google.com/forum/#!msg/theano-users/MnSM9VRISaQ/7cGVdU6upGkJ
+    # 共有変数の値はサイズを知りたいとき
 #     print train_set_x.get_value()
-#     print train_set_y.owner.inputs[0].get_value()
+#     print train_set_y.shape.eval()
 
     # シンボルの割り当て
     # ミニバッチのインデックスを表すシンボル
