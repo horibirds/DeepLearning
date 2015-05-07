@@ -39,7 +39,7 @@ class LogisticRegression(object):
         # ロジスティック回帰モデルのパラメータ
         self.params = [self.W, self.b]
 
-    def negative_log_likelihood(self, y, verbose=True):
+    def negative_log_likelihood(self, y):
         """誤差関数である負の対数尤度を計算するシンボルを返す
         yにはinputに対応する正解ラベルを渡す"""
         # 式通りに計算するとsumだがmeanの方がよい
