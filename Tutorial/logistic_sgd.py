@@ -111,6 +111,12 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     # 入力は28ピクセルx28ピクセルの画像、出力は0から9のラベル
     classifier = LogisticRegression(input=x, n_in=28*28, n_out=10)
 
+    # シンボルのサイズを知りたいとき
+    # シンボルに具体的なデータを与えて評価しないと取得できない
+#     get_shape = theano.function([index], classifier.p_y_given_x.shape,
+#                         givens={x: train_set_x[index * batch_size: (index + 1) * batch_size]})
+#     print get_shape(0)
+
     # 誤差（コスト）を計算 => 最小化したい
     cost = classifier.negative_log_likelihood(y)
 
