@@ -49,6 +49,7 @@ if __name__ == "__main__":
     # 勾配降下法
     # コスト関数の微分
     g_theta = T.grad(cost=cost, wrt=theta)
+
     # パラメータ更新式
     learning_rate = 0.001
     updates = [(theta, theta - learning_rate * g_theta)]
