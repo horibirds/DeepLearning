@@ -33,6 +33,11 @@ if __name__ == "__main__":
     # 訓練データの1列目に1を追加
     data_x = np.hstack((np.ones((m, 1)), data_x))
 
+    # データをシャッフル
+    p = np.random.permutation(m)
+    data_x = data_x[p, :]
+    data_y = data_y[p]
+
     # 訓練データを共有変数にする
     X = theano.shared(np.asarray(data_x, dtype=theano.config.floatX), borrow=True)
     y = theano.shared(np.asarray(data_y, dtype=theano.config.floatX), borrow=True)
@@ -41,30 +46,31 @@ if __name__ == "__main__":
     # 訓練データに1を加えたのでバイアスもthetaに含めてしまう
     theta = theano.shared(np.zeros(3, dtype=theano.config.floatX), name='theta', borrow=True)
 
-    # データのインデックスを表すシンボルを定義
+    # 訓練データのインデックスを表すシンボルを定義
     index = T.lscalar()
 
     # コスト関数の微分を構築
+    # 確率的勾配降下法なので全データの和ではなく、index番目のデータのみ使う
     h = T.nnet.sigmoid(T.dot(theta, X[index,:]))
     cost = -y[index] * T.log(h) - (1 - y[index]) * T.log(1 - h)
 
-    # 勾配降下法
     # コスト関数の微分
     g_theta = T.grad(cost=cost, wrt=theta)
 
     # 更新式
-    learning_rate = 0.00000001
+    learning_rate = 0.0001
     updates = [(theta, theta - learning_rate * g_theta)]
 
     # 訓練用の関数を定義
+    # index番目の訓練データを使ってパラメータ更新
     train_model = theano.function(inputs=[index], outputs=cost, updates=updates)
 
-    # 高度な収束判定はせずにiterations回だけ繰り返す
-    iterations = 300000
-    for iter in range(iterations):
-        for i in range(100):
+    # 確率的勾配降下法
+    max_epoch = 5000
+    for epoch in range(max_epoch):
+        for i in range(m):
             current_cost = train_model(i)
-        print iter, current_cost
+        print epoch, current_cost
 
     # 更新されたパラメータを表示
     t = theta.get_value()
