@@ -62,7 +62,8 @@ if __name__ == "__main__":
     # 高度な収束判定はせずにiterations回だけ繰り返す
     iterations = 300000
     for iter in range(iterations):
-        current_cost = train_model(iter % 100)
+        for i in range(100):
+            current_cost = train_model(i)
         print iter, current_cost
 
     # 更新されたパラメータを表示
