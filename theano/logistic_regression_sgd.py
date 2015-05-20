@@ -41,22 +41,28 @@ if __name__ == "__main__":
     # 訓練データに1を加えたのでバイアスもthetaに含めてしまう
     theta = theano.shared(np.zeros(3, dtype=theano.config.floatX), name='theta', borrow=True)
 
+    # データのインデックスを表すシンボルを定義
+    index = T.lscalar()
+
     # コスト関数の微分を構築
-    h = T.nnet.sigmoid(T.dot(X, theta))
-    cost = (1.0 / m) * T.sum(-y * T.log(h) - (1 - y) * T.log(1 - h))
+    h = T.nnet.sigmoid(T.dot(theta, X[index,:]))
+    cost = -y[index] * T.log(h) - (1 - y[index]) * T.log(1 - h)
 
     # 勾配降下法
     # コスト関数の微分
     g_theta = T.grad(cost=cost, wrt=theta)
+
     # 更新式
-    learning_rate = 0.001
+    learning_rate = 0.00000001
     updates = [(theta, theta - learning_rate * g_theta)]
+
     # 訓練用の関数を定義
-    train_model = theano.function(inputs=[], outputs=cost, updates=updates)
+    train_model = theano.function(inputs=[index], outputs=cost, updates=updates)
+
     # 高度な収束判定はせずにiterations回だけ繰り返す
     iterations = 300000
     for iter in range(iterations):
-        current_cost = train_model()
+        current_cost = train_model(iter % 100)
         print iter, current_cost
 
     # 更新されたパラメータを表示
