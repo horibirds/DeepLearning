@@ -27,7 +27,7 @@ class LogisticRegression(object):
                                borrow=True)
 
 
-        # 各クラスの事後確率を計算
+        # 各クラスの事後確率を計算するシンボル
         # 全データを行列化してまとめて計算している
         # 出力は(N, n_out)の行列
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
@@ -120,16 +120,16 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     # 誤差（コスト）を計算 => 最小化したい
     cost = classifier.negative_log_likelihood(y)
 
-    # index番目のテストバッチを入力してエラー率を返す関数を定義
+    # index番目のテスト用ミニバッチを入力してエラー率を返す関数を定義
     test_model = theano.function(
-        inputs=[index],                # 入力となるシンボルのリスト
-        outputs=classifier.errors(y),  # 出力となるシンボル
+        inputs=[index],
+        outputs=classifier.errors(y),
         givens={  # ここで初めてシンボル x, y を具体的な値で置き換える
             x: test_set_x[index * batch_size: (index + 1) * batch_size],
             y: test_set_y[index * batch_size: (index + 1) * batch_size]
         })
 
-    # index番目のバリデーションバッチを入力してエラー率を返す関数を定義
+    # index番目のバリデーション用ミニバッチを入力してエラー率を返す関数を定義
     validate_model = theano.function(
         inputs=[index],
         outputs=classifier.errors(y),
@@ -142,7 +142,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     g_W = T.grad(cost=cost, wrt=classifier.W)
     g_b = T.grad(cost=cost, wrt=classifier.b)
 
-    # パラメータ更新
+    # パラメータ更新式
     updates = [(classifier.W, classifier.W - learning_rate * g_W),
                (classifier.b, classifier.b - learning_rate * g_b)]
 
@@ -187,8 +187,10 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
 
                 if this_validation_loss < best_validation_loss:
                     if this_validation_loss < best_validation_loss * improvement_threshold:
-                        # 十分改善したならpatienceを上げて多くループを回せるようになる
+                        # 十分改善したならまだ改善の余地があるためpatienceを上げてより多くループを回せるようにする
                         patience = max(patience, iter * patience_increase)
+                        print "*** iter %d / patience %d" % (iter, patience)
+
                     best_validation_loss = this_validation_loss
 
                     test_losses = [test_model(i) for i in xrange(n_test_batches)]
