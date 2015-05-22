@@ -34,7 +34,7 @@ output = T.nnet.sigmoid(conv_out + b.dimshuffle('x', 0, 'x', 'x'))
 f = theano.function([input], output)
 
 
-img = Image.open("doc/images/3wolfmoon.jpg")
+img = Image.open("3wolfmoon.jpg")
 
 # (height, width, channel)
 img = np.asarray(img, dtype='float64') / 256.0
