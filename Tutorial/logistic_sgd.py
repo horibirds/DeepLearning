@@ -13,7 +13,7 @@ import theano.tensor as T
 class LogisticRegression(object):
     def __init__(self, input, n_in, n_out):
         """ロジスティック回帰モデルの初期化
-        input: データ行列（N, n_in）
+        input: ミニバッチ単位のデータ行列（n_samples, n_in）
         n_in : 入力の次元数
         n_out: 出力の次元数"""
         # 重み行列を初期化
@@ -91,24 +91,24 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     valid_set_x, valid_set_y = datasets[1]
     test_set_x, test_set_y = datasets[2]
 
+    # ミニバッチの数
     n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
 
-    # 共有変数の値はサイズを知りたいとき
-#     print train_set_x.get_value()
-#     print train_set_y.shape.eval()
+    print "building the model ..."
 
     # シンボルの割り当て
     # ミニバッチのインデックスを表すシンボル
     index = T.lscalar()
 
-    # 学習データとラベルを表すシンボル
+    # ミニバッチの学習データとラベルを表すシンボル
     x = T.matrix('x')
     y = T.ivector('y')
 
     # MNISTの手書き数字を分類するロジスティック回帰モデル
     # 入力は28ピクセルx28ピクセルの画像、出力は0から9のラベル
+    # 入力はシンボルxを割り当てておいてあとで具体的なデータに置換する
     classifier = LogisticRegression(input=x, n_in=28*28, n_out=10)
 
     # シンボルのサイズを知りたいとき
