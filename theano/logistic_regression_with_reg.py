@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # 交差エントロピー誤差関数
     lam = 1.0
     h = T.nnet.sigmoid(T.dot(X, theta))
-    cost = (1.0 / m) * T.sum(-y * T.log(h) - (1 - y) * T.log(1 - h)) + (lam / m) * T.sum(theta ** 2)
+    cost = (1.0 / m) * T.sum(-y * T.log(h) - (1 - y) * T.log(1 - h)) + (lam / (2 * m)) * T.sum(theta ** 2)
 
     # 勾配降下法
     # コスト関数の微分
