@@ -29,11 +29,11 @@ class LogisticRegression(object):
 
         # 各クラスの事後確率を計算するシンボル
         # 全データを行列化してまとめて計算している
-        # 出力は(N, n_out)の行列
+        # 出力は(n_samples, n_out)の行列
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
 
         # 事後確率が最大のクラスのインデックスを計算
-        # 出力は(N,)のベクトル
+        # 出力は(n_samples,)のベクトル
         self.y_pred = T.argmax(self.p_y_given_x, axis=1)
 
         # ロジスティック回帰モデルのパラメータ
