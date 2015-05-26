@@ -27,12 +27,12 @@ class LogisticRegression(object):
                                borrow=True)
 
 
-        # 各クラスの事後確率を計算するシンボル
+        # 各サンプルが各クラスに分類される確率を計算するシンボル
         # 全データを行列化してまとめて計算している
         # 出力は(n_samples, n_out)の行列
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
 
-        # 事後確率が最大のクラスのインデックスを計算
+        # 確率が最大のクラスのインデックスを計算
         # 出力は(n_samples,)のベクトル
         self.y_pred = T.argmax(self.p_y_given_x, axis=1)
 
@@ -41,13 +41,13 @@ class LogisticRegression(object):
 
     def negative_log_likelihood(self, y):
         """誤差関数である負の対数尤度を計算するシンボルを返す
-        yにはinputに対応する正解ラベルを渡す"""
+        yにはinputに対応する正解クラスを渡す"""
         # 式通りに計算するとsumだがmeanの方がよい
         return -T.mean(T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
 
     def errors(self, y):
         """分類の誤差率を計算するシンボルを返す
-        yにはinputに対応する正解ラベルを渡す"""
+        yにはinputに対応する正解クラスを渡す"""
         if y.ndim != self.y_pred.ndim:
             raise TypeError('y should have the same shape as self.y_pred',
                             ('y', y.type, 'y_pred', self.y_pred.type))
@@ -158,7 +158,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
             y: train_set_y[index * batch_size: (index + 1) * batch_size]
         })
 
-    # 訓練
+    # モデル訓練
     print 'training the model ...'
 
     # eary-stoppingのパラメータ
@@ -177,22 +177,26 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, batch_size=600):
     while (epoch < n_epochs) and (not done_looping):
         epoch = epoch + 1
         for minibatch_index in xrange(n_train_batches):
+            # minibatch_index番目の訓練データのミニバッチを用いてパラメータ更新
             minibatch_avg_cost = train_model(minibatch_index)
 
+            # validation_frequency回の更新ごとにバリデーションセットによるモデル検証が入る
             iter = (epoch - 1) * n_train_batches + minibatch_index
             if (iter + 1) % validation_frequency == 0:
+                # バリデーションセットの平均エラー率を計算
                 validation_losses = [validate_model(i) for i in xrange(n_valid_batches)]
                 this_validation_loss = np.mean(validation_losses)
                 print "epoch %i, minibatch %i/%i, validation error %f %%" % (epoch, minibatch_index + 1, n_train_batches, this_validation_loss * 100)
 
+                # エラー率が十分改善したならまだモデル改善の余地があるためpatienceを上げてより多くループを回せるようにする
                 if this_validation_loss < best_validation_loss:
                     if this_validation_loss < best_validation_loss * improvement_threshold:
-                        # 十分改善したならまだ改善の余地があるためpatienceを上げてより多くループを回せるようにする
                         patience = max(patience, iter * patience_increase)
                         print "*** iter %d / patience %d" % (iter, patience)
 
                     best_validation_loss = this_validation_loss
 
+                    # テストセットを用いたエラー率も求めておく
                     test_losses = [test_model(i) for i in xrange(n_test_batches)]
                     test_score = np.mean(test_losses)
                     print "    epoch %i, minibatch %i/%i, test error of best model %f %%" % (epoch, minibatch_index + 1, n_train_batches, test_score * 100)
