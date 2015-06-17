@@ -152,6 +152,9 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000, data
     epoch = 0
     done_looping = False
 
+    fp1 = open("validation_error.txt", "w")
+    fp2 = open("test_error.txt", "w")
+
     while (epoch < n_epochs) and (not done_looping):
         epoch = epoch + 1
         for minibatch_index in xrange(n_train_batches):
@@ -162,6 +165,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000, data
                 validation_losses = [validate_model(i) for i in xrange(n_valid_batches)]
                 this_validation_loss = np.mean(validation_losses)
                 print "epoch %i, minibatch %i/%i, validation error %f %%" % (epoch, minibatch_index + 1, n_train_batches, this_validation_loss * 100)
+                fp1.write("%d\t%f\n" % (epoch, this_validation_loss * 100))
 
                 if this_validation_loss < best_validation_loss:
                     if this_validation_loss < best_validation_loss * improvement_threshold:
@@ -174,11 +178,14 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000, data
                     test_losses = [test_model(i) for i in xrange(n_test_batches)]
                     test_score = np.mean(test_losses)
                     print "    epoch %i, minibatch %i/%i, test error of best model %f %%" % (epoch, minibatch_index + 1, n_train_batches, test_score * 100)
-
+                    fp2.write("%d\t%f\n" % (epoch, test_score * 100))
             # patienceを超えたらループを終了
             if patience <= iter:
                 done_looping = True
                 break
+
+    fp1.close()
+    fp2.close()
 
     end_time = time.clock()
     print "Optimization complete. Best validation score of %f %% obtained at iteration %i, with test performance %f %%" % (best_validation_loss * 100.0, best_iter + 1, test_score * 100.0)
