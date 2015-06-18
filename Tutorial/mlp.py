@@ -101,7 +101,6 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000, data
     cost = classifier.negative_log_likelihood(y) + L1_reg * classifier.L1 + L2_reg * classifier.L2_sqr
 
     # index番目のテスト用ミニバッチを入力してエラー率を返す関数を定義
-    # index番目のテスト用ミニバッチを入力してエラー率を返す関数を定義
     test_model = theano.function(
         inputs=[index],
         outputs=classifier.errors(y),
