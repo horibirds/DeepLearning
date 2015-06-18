@@ -25,14 +25,14 @@ class HiddenLayer(object):
                 rng.uniform(low=-np.sqrt(6.0 / (n_in + n_out)),
                             high=np.sqrt(6.0 / (n_in + n_out)),
                             size=(n_in, n_out)),
-                dtype=theano.config.floatX)
-            if activation == theano.tensor.nnet.sigmoid:
+                dtype=theano.config.floatX)  # @UndefinedVariable
+            if activation == T.nnet.sigmoid:
                 W_values *= 4
             W = theano.shared(value=W_values, name='W', borrow=True)
 
         # 隠れ層のバイアス（共有変数）を初期化
         if b is None:
-            b_values = np.zeros((n_out, ), dtype=theano.config.floatX)
+            b_values = np.zeros((n_out, ), dtype=theano.config.floatX)  # @UndefinedVariable
             b = theano.shared(value=b_values, name='b', borrow=True)
 
         self.W = W
