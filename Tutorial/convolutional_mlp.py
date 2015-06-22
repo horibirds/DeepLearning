@@ -1,6 +1,7 @@
 #coding: utf-8
 import os
 import time
+import cPickle
 import numpy as np
 import theano
 import theano.tensor as T
@@ -181,9 +182,6 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
         epoch = epoch + 1
         for minibatch_index in xrange(n_train_batches):
             iter = (epoch - 1) * n_train_batches + minibatch_index
-
-            if iter % 100 == 0:
-                print "training @ iter = ", iter
             cost_ij = train_model(minibatch_index)
 
             if (iter + 1) % validation_frequency == 0:
@@ -218,6 +216,14 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
     print "Optimization complete."
     print "Best validation score of %f %% obtained at iteration %i, with test performance %f %%" % (best_validation_loss * 100.0, best_iter + 1, test_score * 100.0)
     print "The code for file " + os.path.split(__file__)[1] + " ran for %.2fm" % ((end_time - start_time) / 60.0)
+
+    # 学習した各レイヤをファイルにダンプ
+    fp1 = open("layer0.pkl", "w")
+    fp2 = open("layer1.pkl", "w")
+    cPickle.dump(layer0, fp1)
+    cPickle.dump(layer1, fp2)
+    fp1.close()
+    fp2.close()
 
 if __name__ == '__main__':
     evaluate_lenet5()
