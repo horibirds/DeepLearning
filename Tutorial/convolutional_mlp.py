@@ -1,7 +1,6 @@
 #coding: utf-8
 import os
 import time
-import cPickle
 import numpy as np
 import theano
 import theano.tensor as T
@@ -22,10 +21,10 @@ class LeNetConvPoolLayer(object):
         W_bound = np.sqrt(6.0 / (fan_in + fan_out))
         self.W = theano.shared(
             np.asarray(rng.uniform(low=-W_bound, high=W_bound, size=filter_shape),
-                       dtype=theano.config.floatX),
+                       dtype=theano.config.floatX),  # @UndefinedVariable
             borrow=True)
 
-        b_values = np.zeros((filter_shape[0],), dtype=theano.config.floatX)
+        b_values = np.zeros((filter_shape[0],), dtype=theano.config.floatX)  # @UndefinedVariable
         self.b = theano.shared(value=b_values, borrow=T)
 
         # 入力の特徴マップとフィルタの畳み込み
