@@ -20,7 +20,7 @@ NtRp8
 (dp9
 S'auto_name'
 p10
-S'auto_512'
+S'auto_522'
 p11
 sS'index'
 p12
@@ -36,14 +36,14 @@ p16
 (lp17
 (S'D:\\Documents\\git\\DeepLearning\\Tutorial\\convolutional_mlp.py'
 p18
-I90
+I89
 S'evaluate_lenet5'
 p19
 S'poolsize=(2, 2))'
 tp20
 a(S'D:\\Documents\\git\\DeepLearning\\Tutorial\\convolutional_mlp.py'
 p21
-I45
+I44
 S'__init__'
 p22
 S"self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))"
@@ -82,7 +82,7 @@ g3
 NtRp37
 (dp38
 g10
-S'auto_509'
+S'auto_519'
 p39
 sg12
 I0
@@ -94,7 +94,7 @@ p40
 g16
 (lp42
 (g21
-I45
+I44
 g22
 S"self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))"
 tp43
@@ -130,7 +130,7 @@ g3
 NtRp52
 (dp53
 g10
-S'auto_503'
+S'auto_513'
 p54
 sg12
 I0
@@ -154,7 +154,7 @@ g3
 NtRp60
 (dp61
 g10
-S'auto_486'
+S'auto_496'
 p62
 sg12
 I0
@@ -166,7 +166,7 @@ p63
 g16
 (lp65
 (g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp66
@@ -202,7 +202,7 @@ g3
 NtRp75
 (dp76
 g10
-S'auto_485'
+S'auto_495'
 p77
 sg12
 I0
@@ -226,7 +226,7 @@ g3
 NtRp83
 (dp84
 g10
-S'auto_461'
+S'auto_471'
 p85
 sg12
 I0
@@ -250,7 +250,7 @@ g3
 NtRp91
 (dp92
 g10
-S'auto_449'
+S'auto_459'
 p93
 sg12
 I0
@@ -274,7 +274,7 @@ g3
 NtRp99
 (dp100
 g10
-S'auto_445'
+S'auto_455'
 p101
 sg12
 Nsg13
@@ -286,13 +286,13 @@ g16
 (lp104
 (S'D:\\Documents\\git\\DeepLearning\\Tutorial\\convolutional_mlp.py'
 p105
-I229
+I224
 S'<module>'
 p106
 S'evaluate_lenet5()'
 tp107
 a(g18
-I70
+I69
 g19
 S"x = T.matrix('x')"
 tp108
@@ -350,7 +350,7 @@ g3
 NtRp125
 (dp126
 g10
-S'auto_448'
+S'auto_458'
 p127
 sg12
 Nsg13
@@ -411,12 +411,12 @@ p140
 g16
 (lp142
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp143
 a(g18
-I78
+I77
 g19
 S'layer0_input = x.reshape((batch_size, 1, 28, 28))'
 tp144
@@ -477,7 +477,7 @@ g3
 NtRp160
 (dp161
 g10
-S'auto_460'
+S'auto_470'
 p162
 sg12
 I0
@@ -584,7 +584,7 @@ NsbsS'allow_downcast'
 p195
 Nsbsg30
 Nsg10
-S'auto_450'
+S'auto_460'
 p196
 sg13
 (itheano.gof.utils
@@ -594,17 +594,17 @@ p197
 g16
 (lp199
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp200
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp201
 a(g21
-I26
+I25
 g22
 S'borrow=True)'
 tp202
@@ -683,17 +683,17 @@ p220
 g16
 (lp222
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp223
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp224
 a(g21
-I36
+I35
 g22
 S'image_shape=image_shape)'
 tp225
@@ -721,7 +721,7 @@ I5
 tp233
 sS'_ConvOp__hashval'
 p234
-I-862089428
+I-862097876
 sS'imshp'
 p235
 (I1
@@ -815,7 +815,7 @@ g3
 NtRp262
 (dp263
 g10
-S'auto_472'
+S'auto_482'
 p264
 sg12
 I0
@@ -839,7 +839,7 @@ g3
 NtRp270
 (dp271
 g10
-S'auto_471'
+S'auto_481'
 p272
 sg12
 Nsg13
@@ -892,7 +892,7 @@ g3
 NtRp281
 (dp282
 g10
-S'auto_469'
+S'auto_479'
 p283
 sg12
 I0
@@ -916,7 +916,7 @@ g3
 NtRp289
 (dp290
 g10
-S'auto_468'
+S'auto_478'
 p291
 sg12
 I0
@@ -963,7 +963,7 @@ g3
 NtRp303
 (dp304
 g10
-S'auto_467'
+S'auto_477'
 p305
 sg12
 I0
@@ -987,7 +987,7 @@ g3
 NtRp311
 (dp312
 g10
-S'auto_465'
+S'auto_475'
 p313
 sg12
 I0
@@ -1038,12 +1038,12 @@ p326
 g16
 (lp328
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp329
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp330
@@ -1104,7 +1104,7 @@ g3
 NtRp343
 (dp344
 g10
-S'auto_466'
+S'auto_476'
 p345
 sg12
 Nsg13
@@ -1138,12 +1138,12 @@ p353
 g16
 (lp355
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp356
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp357
@@ -1203,12 +1203,12 @@ p372
 g16
 (lp374
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp375
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp376
@@ -1286,12 +1286,12 @@ p395
 g16
 (lp397
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp398
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp399
@@ -1360,7 +1360,7 @@ g3
 NtRp420
 (dp421
 g10
-S'auto_470'
+S'auto_480'
 p422
 sg12
 Nsg13
@@ -1410,7 +1410,7 @@ g3
 NtRp431
 (dp432
 g10
-S'auto_464'
+S'auto_474'
 p433
 sg12
 I0
@@ -1434,7 +1434,7 @@ g3
 NtRp439
 (dp440
 g10
-S'auto_462'
+S'auto_472'
 p441
 sg12
 I0
@@ -1483,12 +1483,12 @@ p452
 g16
 (lp454
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp455
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp456
@@ -1515,7 +1515,7 @@ g3
 NtRp460
 (dp461
 g10
-S'auto_463'
+S'auto_473'
 p462
 sg12
 Nsg13
@@ -1539,12 +1539,12 @@ p466
 g16
 (lp468
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp469
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp470
@@ -1598,17 +1598,17 @@ p481
 g16
 (lp483
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp484
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp485
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp486
@@ -1655,12 +1655,12 @@ p496
 g16
 (lp498
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp499
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp500
@@ -1715,17 +1715,17 @@ p509
 g16
 (lp511
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp512
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp513
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp514
@@ -1766,7 +1766,7 @@ g3
 NtRp524
 (dp525
 g10
-S'auto_494'
+S'auto_504'
 p526
 sg12
 I0
@@ -1791,7 +1791,7 @@ g3
 NtRp532
 (dp533
 g10
-S'auto_489'
+S'auto_499'
 p534
 sg12
 I0
@@ -1815,7 +1815,7 @@ g3
 NtRp540
 (dp541
 g10
-S'auto_487'
+S'auto_497'
 p542
 sg12
 I0
@@ -1864,12 +1864,12 @@ p553
 g16
 (lp555
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp556
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp557
@@ -1896,7 +1896,7 @@ g3
 NtRp561
 (dp562
 g10
-S'auto_488'
+S'auto_498'
 p563
 sg12
 Nsg13
@@ -1920,12 +1920,12 @@ p567
 g16
 (lp569
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp570
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp571
@@ -1977,7 +1977,7 @@ g3
 NtRp582
 (dp583
 g10
-S'auto_492'
+S'auto_502'
 p584
 sg12
 I0
@@ -2001,7 +2001,7 @@ g3
 NtRp590
 (dp591
 g10
-S'auto_490'
+S'auto_500'
 p592
 sg12
 I0
@@ -2050,12 +2050,12 @@ p603
 g16
 (lp605
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp606
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp607
@@ -2082,7 +2082,7 @@ g3
 NtRp611
 (dp612
 g10
-S'auto_491'
+S'auto_501'
 p613
 sg12
 Nsg13
@@ -2106,12 +2106,12 @@ p617
 g16
 (lp619
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp620
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp621
@@ -2165,17 +2165,17 @@ p632
 g16
 (lp634
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp635
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp636
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp637
@@ -2214,12 +2214,12 @@ p644
 g16
 (lp646
 (g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp647
 a(g21
-I42
+I41
 g22
 S'ignore_border=True)'
 tp648
@@ -2272,7 +2272,7 @@ g3
 NtRp657
 (dp658
 g10
-S'auto_505'
+S'auto_515'
 p659
 sg12
 I0
@@ -2296,7 +2296,7 @@ g3
 NtRp665
 (dp666
 g10
-S'auto_504'
+S'auto_514'
 p667
 sg12
 I0
@@ -2380,7 +2380,7 @@ sg30
 Nsbsg195
 Nsbsg30
 Nsg10
-S'auto_451'
+S'auto_461'
 p688
 sg13
 (itheano.gof.utils
@@ -2390,17 +2390,17 @@ p689
 g16
 (lp691
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp692
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp693
 a(g21
-I29
+I28
 g22
 S'self.b = theano.shared(value=b_values, borrow=T)'
 tp694
@@ -2471,17 +2471,17 @@ p708
 g16
 (lp710
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp711
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp712
 a(g21
-I45
+I44
 g22
 S"self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))"
 tp713
@@ -2550,17 +2550,17 @@ p727
 g16
 (lp729
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp730
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp731
 a(g21
-I45
+I44
 g22
 S"self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))"
 tp732
@@ -2649,17 +2649,17 @@ p756
 g16
 (lp758
 (g105
-I229
+I224
 g106
 S'evaluate_lenet5()'
 tp759
 a(g18
-I90
+I89
 g19
 S'poolsize=(2, 2))'
 tp760
 a(g21
-I45
+I44
 g22
 S"self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))"
 tp761
