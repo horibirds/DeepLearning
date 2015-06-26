@@ -18,7 +18,7 @@ def visualize_filter(layer):
     pos = 1
     for f in range(n_filters):
         for c in range(n_channels):
-            plt.subplot(n_filters, n_channels, pos)
+            plt.subplot(n_channels, n_filters, pos)
             plt.subplots_adjust(wspace=0.1, hspace=0.1)
             plt.imshow(W[f, c], cmap=pylab.cm.gray_r)
             plt.axis('off')
