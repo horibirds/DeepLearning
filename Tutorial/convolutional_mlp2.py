@@ -9,6 +9,10 @@ from theano.tensor.signal import downsample
 from logistic_sgd import LogisticRegression, load_data
 from mlp import HiddenLayer
 
+def relu(x):
+    """Rectified Linear Unit"""
+    return theano.tensor.switch(x < 0, 0, x)
+
 class ConvLayer(object):
     """畳み込みニューラルネットの畳み込み層"""
     def __init__(self, rng, input, image_shape, filter_shape):
