@@ -135,7 +135,7 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
         })
 
     # パラメータ
-    params = layer3.params + layer2.params + layer2.params + layer0.params
+    params = layer5.params + layer4.params + layer2.params + layer0.params
 
     # コスト関数の微分
     grads = T.grad(cost, params)
