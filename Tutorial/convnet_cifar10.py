@@ -62,6 +62,21 @@ def unpickle(filename):
     fp.close()
     return d
 
+def draw_image(dataset, nrow, ncol):
+    import matplotlib.pyplot as plt
+
+    dataset_x, dataset_y = dataset
+    plt.figure()
+    for index in range(nrow * ncol):
+        plt.subplot(nrow, ncol, index + 1)
+        plt.axis('off')
+        # (channel, row, col)
+        image = np.array(dataset_x[index].reshape(3, 32, 32))
+        # imshow()のデフォルトである(row, col, channel)に並び替え
+        image = image.transpose((1, 2, 0))
+        plt.imshow(image)
+    plt.show()
+
 def load_data(cifar_dir):
     train_set = [[], []]
     valid_set = [[], []]
@@ -85,12 +100,7 @@ def load_data(cifar_dir):
     test_set[1].extend(d["labels"])
 
     # 画像の可視化
-    import matplotlib.pyplot as plt
-    image = np.array(train_set[0][0].reshape(3, 32, 32))
-    image = image.transpose((1, 2, 0))
-    print image.shape
-    plt.imshow(image)
-    plt.show()
+    draw_image(train_set, 10, 10)
     exit()
 
     def shared_dataset(data_xy, borrow=True):
