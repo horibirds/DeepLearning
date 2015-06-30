@@ -59,3 +59,4 @@ target/
 .project
 .pydevproject
 .settings
+cifar-10-batches-py
