@@ -75,7 +75,8 @@ def draw_image(dataset, nrow, ncol):
         # imshow()のデフォルトである(row, col, channel)に並び替え
         image = image.transpose((1, 2, 0))
         plt.imshow(image)
-    plt.show()
+#    plt.show()
+    plt.savefig("cifar-10.png")
 
 def load_data(cifar_dir):
     train_set = [[], []]
@@ -100,8 +101,7 @@ def load_data(cifar_dir):
     test_set[1].extend(d["labels"])
 
     # 画像の可視化
-    draw_image(train_set, 10, 10)
-    exit()
+#    draw_image(train_set, 10, 10)
 
     def shared_dataset(data_xy, borrow=True):
         data_x, data_y = data_xy
@@ -112,8 +112,6 @@ def load_data(cifar_dir):
     train_set_x, train_set_y = shared_dataset(train_set)
     valid_set_x, valid_set_y = shared_dataset(valid_set)
     test_set_x, test_set_y = shared_dataset(test_set)
-
-    print type(train_set_x)
 
     rval = [(train_set_x, train_set_y),
             (valid_set_x, valid_set_y),
@@ -146,16 +144,12 @@ def evaluate_cifar10(learning_rate=0.1, n_epochs=200, batch_size=500):
     y = T.ivector('y')
 
     # 入力
-    # 入力のサイズを4Dテンソルに変換
-    # batch_sizeは訓練画像の枚数
-    # チャンネル数は1
-    # (28, 28)はMNISTの画像サイズ
-    layer0_input = x.reshape((batch_size, 1, 28, 28))
+    layer0_input = x.reshape((batch_size, 3, 32, 32))
 
     layer0 = ConvLayer(rng,
                 input=layer0_input,
-                image_shape=(batch_size, 1, 28, 28),
-                filter_shape=(20, 1, 5, 5))
+                image_shape=(batch_size, 3, 32, 32),
+                filter_shape=(32, 3, 5, 5))
 
     layer1 = PoolingLayer(rng,
                           input=layer0.output,
@@ -163,8 +157,8 @@ def evaluate_cifar10(learning_rate=0.1, n_epochs=200, batch_size=500):
 
     layer2 = ConvLayer(rng,
                        input=layer1.output,
-                       image_shape=(batch_size, 20, 12, 12),
-                       filter_shape=(50, 20, 5, 5))
+                       image_shape=(batch_size, 32, 14, 14),
+                       filter_shape=(64, 32, 5, 5))
 
     layer3 = PoolingLayer(rng,
                           input=layer2.output,
@@ -176,12 +170,12 @@ def evaluate_cifar10(learning_rate=0.1, n_epochs=200, batch_size=500):
     # 全結合された隠れ層
     layer4 = HiddenLayer(rng,
         input=layer4_input,
-        n_in=50 * 4 * 4,
-        n_out=500,
+        n_in=64 * 5 * 5,
+        n_out=64,
         activation=T.tanh)
 
     # 最終的な数字分類を行うsoftmax層
-    layer5 = LogisticRegression(input=layer4.output, n_in=500, n_out=10)
+    layer5 = LogisticRegression(input=layer4.output, n_in=64, n_out=10)
 
     # コスト関数を計算するシンボル
     cost = layer5.negative_log_likelihood(y)
