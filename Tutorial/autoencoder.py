@@ -7,6 +7,7 @@ import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
 
 from logistic_sgd import load_data
+from utils import tile_raster_images
 
 try:
     import PIL.Image as Image
@@ -102,18 +103,6 @@ class AutoEncoder(object):
             for param, gparam in zip(self.params, gparams)]
 
         return cost, updates
-
-def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
-                       scale_rows_to_unit_interval=True,
-                       output_pixel_vals=True):
-    """img_shapeのサイズの画像をtile_shapeの形に並べる
-    tile_spacingは画像と画像の間のスペースのサイズ"""
-    assert len(img_shape) == 2
-    assert len(tile_shape) == 2
-    assert(tile_spacing) == 2
-
-    out_shape = [(ishp + tsp) * tshp - tsp
-                 for ishp, tshp, tsp in zip(img_shape, tile_shape, tile_spacing)]
 
 def test_dA():
     learning_rate = 0.1
