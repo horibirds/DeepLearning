@@ -170,6 +170,8 @@ def test_dA():
                                      img_shape=(28, 28),
                                      tile_shape=(10, 10),
                                      tile_spacing=(1, 1))
+    image = Image.fromarray(tile_images)
+    image.save('filters.png')
 
 if __name__ == "__main__":
     test_dA()
