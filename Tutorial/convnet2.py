@@ -39,7 +39,7 @@ class ConvLayer(object):
             image_shape=image_shape)
 
         # バイアスを加える
-        self.output = T.tanh(conv_out + self.b.dimshuffle('x', 0, 'x', 'x'))
+        self.output = relu(conv_out + self.b.dimshuffle('x', 0, 'x', 'x'))
 
         self.params = [self.W, self.b]
 
@@ -112,7 +112,7 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
         input=layer4_input,
         n_in=50 * 4 * 4,
         n_out=500,
-        activation=T.tanh)
+        activation=relu)
 
     # 最終的な数字分類を行うsoftmax層
     layer5 = LogisticRegression(input=layer4.output, n_in=500, n_out=10)
