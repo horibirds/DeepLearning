@@ -11,7 +11,7 @@ from mlp import HiddenLayer
 
 def relu(x):
     """Rectified Linear Unit"""
-    return theano.tensor.switch(x < 0, 0, x)
+    return T.switch(x < 0, 0, x)
 
 class ConvLayer(object):
     """畳み込みニューラルネットの畳み込み層"""
@@ -173,8 +173,8 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
     epoch = 0
     done_looping = False
 
-    fp1 = open("validation_error.txt", "w")
-    fp2 = open("test_error.txt", "w")
+    fp1 = open("validation_error_relu.txt", "w")
+    fp2 = open("test_error_relu.txt", "w")
 
     while (epoch < n_epochs) and (not done_looping):
         epoch = epoch + 1
@@ -192,7 +192,6 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
                     if this_validation_loss < best_validation_loss * improvement_threshold:
                         # 十分改善したならまだ改善の余地があるためpatienceを上げてより多くループを回せるようにする
                         patience = max(patience, iter * patience_increase)
-                        print "*** iter %d / patience %d" % (iter, patience)
                     best_validation_loss = this_validation_loss
                     best_iter = iter
 
@@ -201,7 +200,6 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
                     test_score = np.mean(test_losses)
                     print "    epoch %i, minibatch %i/%i, test error of best model %f %%" % (epoch, minibatch_index + 1, n_train_batches, test_score * 100)
                     fp2.write("%d\t%f\n" % (epoch, test_score * 100))
-
             # patienceを超えたらループを終了
             if patience <= iter:
                 done_looping = True
