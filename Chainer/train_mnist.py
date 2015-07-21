@@ -6,6 +6,7 @@ from chainer import cuda
 import chainer.functions as F
 from chainer import optimizers
 from sklearn.datasets import fetch_mldata
+import time
 
 """
 Chainer example
@@ -32,6 +33,9 @@ model = chainer.FunctionSet(l1=F.Linear(784, n_units),
                             l2=F.Linear(n_units, n_units),
                             l3=F.Linear(n_units, 10))
 
+cuda.init()
+model.to_gpu()
+
 # neural network architecture
 def forward(x_data, y_data, train=True):
     x, t = chainer.Variable(x_data), chainer.Variable(y_data)
@@ -48,6 +52,8 @@ fp1 = open("train_loss.txt", "w")
 fp2 = open("test_loss.txt", "w")
 
 # learning loop
+start_time = time.clock()
+
 for epoch in xrange(1, n_epoch + 1):
     print "epoch", epoch
 
@@ -58,6 +64,9 @@ for epoch in xrange(1, n_epoch + 1):
     for i in xrange(0, N, batchsize):
         x_batch = x_train[perm[i:i+batchsize]]
         y_batch = y_train[perm[i:i+batchsize]]
+
+        x_batch = cuda.to_gpu(x_batch)
+        y_batch = cuda.to_gpu(y_batch)
 
         optimizer.zero_grads()
         loss, acc = forward(x_batch, y_batch)
@@ -76,6 +85,8 @@ for epoch in xrange(1, n_epoch + 1):
     for i in xrange(0, N_test, batchsize):
         x_batch = x_test[i:i+batchsize]
         y_batch = y_test[i:i+batchsize]
+        x_batch = cuda.to_gpu(x_batch)
+        y_batch = cuda.to_gpu(y_batch)
 
         loss, acc = forward(x_batch, y_batch, train=False)
 
@@ -87,3 +98,6 @@ for epoch in xrange(1, n_epoch + 1):
 
 fp1.close()
 fp2.close()
+
+end_time = time.clock()
+print "training time: %fm" % ((end_time - start_time) / 60.0)
