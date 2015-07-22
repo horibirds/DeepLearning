@@ -18,7 +18,6 @@ USE_GPU = False
 batchsize = 100
 n_epoch = 30
 n_units = 500
-noised = False
 
 # Autoencoderは教師なし学習なのでmnist.targetのラベルデータは使わない
 print "fetch MNIST dataset"
@@ -59,10 +58,6 @@ def forward(x_data, train=True):
 optimizer = optimizers.Adam()
 optimizer.setup(model.collect_parameters())
 
-# 各エポックでの訓練データの誤差とテストデータの誤差を記録しておくリスト
-train_loss = []
-test_loss = []
-
 fp1 = open("train_loss.txt", "w")
 fp2 = open("test_loss.txt", "w")
 
@@ -85,7 +80,6 @@ for epoch in xrange(1, n_epoch + 1):
         loss.backward()
         optimizer.update()
 
-        train_loss.append(loss.data)
         sum_loss += float(cuda.to_cpu(loss.data)) * batchsize
 
     print "train mean loss = %f" % (sum_loss / N_train)
@@ -103,7 +97,6 @@ for epoch in xrange(1, n_epoch + 1):
         # 評価の時はtrainをFalseにしてパラメータ更新を抑制する
         loss = forward(x_batch, train=False)
 
-        test_loss.append(loss.data)
         sum_loss += float(cuda.to_cpu(loss.data)) * batchsize
 
     print "test mean loss = %f" % (sum_loss / N_test)

@@ -53,7 +53,6 @@ for i in range(100):
 
 # 最初の100個の重みを描画
 n_hidden = model.l1.W.shape[0]
-print n_hidden
 plt.figure()
 for i in range(100):
     plt.subplot(10, 10, i + 1)
