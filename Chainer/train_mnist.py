@@ -13,6 +13,8 @@ train a multi-layer perceptron on MNIST
 https://github.com/pfnet/chainer/blob/master/examples/mnist/train_mnist.py
 """
 
+USE_GPU = True
+
 batchsize = 100
 n_epoch = 20
 n_units = 1000
@@ -23,17 +25,18 @@ mnist['data'] = mnist['data'].astype(np.float32)
 mnist['data'] /= 255
 mnist['target'] = mnist['target'].astype(np.int32)
 
-N = 60000
-x_train, x_test = np.split(mnist['data'], [N])
-y_train, y_test = np.split(mnist['target'], [N])
+N_train = 60000
+x_train, x_test = np.split(mnist['data'], [N_train])
+y_train, y_test = np.split(mnist['target'], [N_train])
 N_test = y_test.size
 
 model = chainer.FunctionSet(l1=F.Linear(784, n_units),
                             l2=F.Linear(n_units, n_units),
                             l3=F.Linear(n_units, 10))
 
-cuda.init()
-model.to_gpu()
+if USE_GPU:
+    cuda.init()
+    model.to_gpu()
 
 # neural network architecture
 def forward(x_data, y_data, train=True):
@@ -57,15 +60,16 @@ for epoch in xrange(1, n_epoch + 1):
     print "epoch", epoch
 
     # training
-    perm = np.random.permutation(N)
+    perm = np.random.permutation(N_train)
     sum_accuracy = 0
     sum_loss = 0
-    for i in xrange(0, N, batchsize):
+    for i in xrange(0, N_train, batchsize):
         x_batch = x_train[perm[i:i+batchsize]]
         y_batch = y_train[perm[i:i+batchsize]]
 
-        x_batch = cuda.to_gpu(x_batch)
-        y_batch = cuda.to_gpu(y_batch)
+        if USE_GPU:
+            x_batch = cuda.to_gpu(x_batch)
+            y_batch = cuda.to_gpu(y_batch)
 
         optimizer.zero_grads()
         loss, acc = forward(x_batch, y_batch)
@@ -75,7 +79,8 @@ for epoch in xrange(1, n_epoch + 1):
         sum_loss += float(cuda.to_cpu(loss.data)) * len(y_batch)
         sum_accuracy += float(cuda.to_cpu(acc.data)) * len(y_batch)
 
-    fp1.write("%f\t%f\n" % (sum_loss / N, sum_accuracy / N))
+    print "train mean loss = %f" % (sum_loss / N_train)
+    fp1.write("%f\t%f\n" % (sum_loss / N_train, sum_accuracy / N_train))
     fp1.flush()
 
     # evaluation
@@ -84,14 +89,17 @@ for epoch in xrange(1, n_epoch + 1):
     for i in xrange(0, N_test, batchsize):
         x_batch = x_test[i:i+batchsize]
         y_batch = y_test[i:i+batchsize]
-        x_batch = cuda.to_gpu(x_batch)
-        y_batch = cuda.to_gpu(y_batch)
+
+        if USE_GPU:
+            x_batch = cuda.to_gpu(x_batch)
+            y_batch = cuda.to_gpu(y_batch)
 
         loss, acc = forward(x_batch, y_batch, train=False)
 
         sum_loss += float(cuda.to_cpu(loss.data)) * len(y_batch)
         sum_accuracy += float(cuda.to_cpu(acc.data)) * len(y_batch)
 
+    print "test mean loss = %f" % (sum_loss / N_test)
     fp2.write("%f\t%f\n" % (sum_loss / N_test, sum_accuracy / N_test))
     fp2.flush()
 
