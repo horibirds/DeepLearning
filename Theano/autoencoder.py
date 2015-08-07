@@ -6,8 +6,8 @@ import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
 
-from logistic_sgd import load_data
-from utils import tile_raster_images
+from logistic_sgd import load_data    # @UnresolvedImport
+from utils import tile_raster_images  # @UnresolvedImport
 
 try:
     import PIL.Image as Image
@@ -15,7 +15,6 @@ except ImportError:
     import Image
 
 class AutoEncoder(object):
-    """自己符号化器"""
     def __init__(self, numpy_rng, theano_rng=None,
                  input=None,
                  n_visible=784, n_hidden=500,
@@ -104,17 +103,16 @@ class AutoEncoder(object):
 
         return cost, updates
 
-def test_dA():
+def test_autoencoder():
     learning_rate = 0.1
     training_epochs = 15
     batch_size = 20
-    output_dir = 'dA_plots'
 
     # 学習データのロード
     # 今回は評価はしないため訓練データのみ
     # TODO:テストデータの圧縮・復元がどれくらいうまくいくのかテストしてみる
     datasets = load_data('mnist.pkl.gz')
-    train_set_x, train_set_y = datasets[0]
+    train_set_x = datasets[0][0]
 
     # ミニバッチ数
     n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
@@ -124,11 +122,6 @@ def test_dA():
 
     # ミニバッチの学習データを表すシンボル
     x = T.matrix('x')
-
-    # 出力先がなかったら作って移動
-    if not os.path.isdir(output_dir):
-        os.makedirs(output_dir)
-    os.chdir(output_dir)
 
     # モデル構築
     rng = np.random.RandomState(123)
@@ -151,6 +144,8 @@ def test_dA():
             x: train_set_x[index * batch_size: (index + 1) * batch_size]
         })
 
+    fp = open("cost.txt", "w")
+
     # モデル訓練
     start_time = time.clock()
     for epoch in xrange(training_epochs):
@@ -159,9 +154,13 @@ def test_dA():
             c.append(train_da(batch_index))
 
         print "Training epoch %d, cost %f" % (epoch, np.mean(c))
+        fp.write("%d\t%f\n" % (epoch, np.mean(c)))
+        fp.flush()
 
     end_time = time.clock()
     training_time = (end_time - start_time)
+
+    fp.close()
 
     print "The no corruption code for file " + os.path.split(__file__)[1] + " ran for %.2fm" % ((training_time / 60.0))
 
@@ -171,7 +170,7 @@ def test_dA():
                                      tile_shape=(10, 10),
                                      tile_spacing=(1, 1))
     image = Image.fromarray(tile_images)
-    image.save('filters.png')
+    image.save('autoencoder_filters.png')
 
 if __name__ == "__main__":
-    test_dA()
+    test_autoencoder()
