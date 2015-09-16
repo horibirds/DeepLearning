@@ -14,7 +14,7 @@ try:
 except ImportError:
     import Image
 
-class AutoEncoder(object):
+class Autoencoder(object):
     def __init__(self, numpy_rng, theano_rng=None,
                  input=None,
                  n_visible=784, n_hidden=500,
@@ -127,7 +127,7 @@ def test_autoencoder():
     rng = np.random.RandomState(123)
     theano_rng = RandomStreams(rng.randint(2 ** 30))
 
-    auto_encoder = AutoEncoder(numpy_rng=rng,
+    auto_encoder = Autoencoder(numpy_rng=rng,
                                theano_rng=theano_rng,
                                input=x,
                                n_visible=28 * 28,
