@@ -283,3 +283,6 @@ def test_stacked_autoencoder(finetune_lr=0.1, pretraining_epochs=15,
 
     fp1.close()
     fp2.close()
+
+if __name__ == "__main__":
+    test_stacked_autoencoder()
