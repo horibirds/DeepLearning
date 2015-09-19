@@ -113,7 +113,7 @@ class DenoisingAutoencoder(object):
         return cost, updates
 
 def test_autoencoder():
-    corruption_level = 0.8
+    corruption_level = 0.3
     learning_rate = 0.1
     training_epochs = 15
     batch_size = 20
