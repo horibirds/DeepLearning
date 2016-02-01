@@ -60,7 +60,7 @@ class LogisticRegression(object):
 def load_data(dataset):
     """データセットをロードしてGPUの共有変数に格納"""
     f = gzip.open(dataset, 'rb')
-    train_set, valid_set, test_set = cPickle.load(f)
+    train_set, valid_set, test_set = cPickle.load(f, encoding='latin1')
     f.close()
 
     def shared_dataset(data_xy, borrow=True):
